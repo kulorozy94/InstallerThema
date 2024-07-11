@@ -2,6 +2,13 @@
 
 LICENSE_FILE="$HOME/.license"
 
+# ANSI escape sequences for colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RESET='\033[0m'  # Reset text color to default
+
 # Fungsi untuk meminta lisensi dari pengguna
 request_license() {
     echo "Masukkan lisensi Anda:"
@@ -26,24 +33,50 @@ display_message() {
     echo ""
     echo ""
     echo ""
+    echo -e "${RED}"
     echo "                         ____      _    ___ _   _ __  __ ____"
     echo "                        |  _ \\    / \\  |_ _| \\ | |  \\/  |/ ___|"
     echo "                        | |_) |  / _ \\  | ||  \\| | |\\/| | |"
     echo "                        |  _ <  / ___ \\ | || |\\  | |  | | |___"
     echo "                        |_| \\_\\/_/   \\_\\___|_| \\_|_|  |_|\\____|"
+    echo -e "${RESET}"
     echo ""
-    echo "                    WHATSAPP : 085263390832"
-    echo "                    YOUTUBE  : RAINMC"
+    echo -e "${YELLOW}                    WHATSAPP : 085263390832${RESET}"
+    echo -e "${GREEN}                    YOUTUBE  : RAINMC${RESET}"
     echo ""
     echo ""
 }
 
 # Fungsi instalasi perangkat lunak
 install_software() {
-    echo "Instalasi perangkat lunak dimulai..."
-    # Tambahkan perintah instalasi perangkat lunak Anda di sini
-    echo "Instalasi perangkat lunak selesai."
+    echo "MASUKAN ULANG LICENSE ANDA"
 }
+
+# Fungsi untuk animasi teks berkedip
+animate_text() {
+    local text="$1"
+    local delay="${2:-0.1}"
+    local colors=("$RED" "$GREEN" "$BLUE" "$YELLOW")
+
+    for (( i = 0; i < 10; i++ )); do
+        color_index=$(( $i % ${#colors[@]} ))
+        echo -en "${colors[$color_index]}"
+        echo -en "$text"
+        sleep "$delay"
+        echo -en "\r${RESET}"
+        sleep "$delay"
+    done
+}
+
+# Main script
+request_license
+if check_license; then
+    display_message
+    install_software
+    animate_text "POWERED BY RAINMC"
+else
+    exit 1
+fi
 
 # Fungsi untuk menangani pilihan "FIX YARN"
 fix_yarn() {
