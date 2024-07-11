@@ -491,9 +491,6 @@ configure_nginx
 install_firewall
 firewall_ports "22 80 443 8080 2022"
 output "Installing Pterodactyl Wings.."
-wings_deps
-wings_dl
-wings_systemd
 
 # ----------------- Print Credentials ---------------- #
 print_brake 62
