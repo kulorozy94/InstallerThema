@@ -55,7 +55,7 @@ install_software() {
 # Fungsi untuk animasi teks berkedip
 animate_text() {
     local text="$1"
-    local delay="${2:-0.1}"
+    local delay="${2:-3.1}"
     local colors=("$RED" "$GREEN" "$BLUE" "$YELLOW")
 
     for (( i = 0; i < 10; i++ )); do
