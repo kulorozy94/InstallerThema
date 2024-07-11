@@ -34,38 +34,47 @@ display_message() {
     echo ""
     echo ""
     echo -e "${RED}"
-    echo "                         ____      _    ___ _   _ __  __ ____"
-    echo "                        |  _ \\    / \\  |_ _| \\ | |  \\/  |/ ___|"
-    echo "                        | |_) |  / _ \\  | ||  \\| | |\\/| | |"
-    echo "                        |  _ <  / ___ \\ | || |\\  | |  | | |___"
-    echo "                        |_| \\_\\/_/   \\_\\___|_| \\_|_|  |_|\\____|"
+    echo "          -o          o-            ____      _    ___ _   _ __  __ ____"
+    echo "          +hydNNNNdyh+             |  _ \\    / \\  |_ _| \\ | |  \\/  |/ ___|"
+    echo "        +mMMMMMMMMMMMMm+           | |_) |  / _ \\  | ||  \\| | |\\/| | |"
+    echo "      \`dMMm:NMMMMMMN:mMMd\`         |  _ <  / ___ \\ | || |\\  | |  | | |___"
+    echo "      hMMMMMMMMMMMMMMMMMMh         |_| \\_\\/_/   \\_\\___|_| \\_|_|  |_|\\____|"
+    echo "  ..  yyyyyyyyyyyyyyyyyyyy  .."
+    echo ".mMMm\`MMMMMMMMMMMMMMMMMMMM\`mMMm."
+    echo ":MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:"
+    echo ":MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:"
+    echo ":MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:"
+    echo ":MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM:"
+    echo "-MMMM-MMMMMMMMMMMMMMMMMMMM-MMMM-"
+    echo " +yy+ MMMMMMMMMMMMMMMMMMMM +yy+"
+    echo "      mMMMMMMMMMMMMMMMMMMm"
+    echo "      \`/++MMMMh++hMMMM++/\`"
+    echo "          MMMMo  oMMMM"
+    echo "          MMMMo  oMMMM"
+    echo "          oNMm-  -mMNs"
     echo -e "${RESET}"
     echo ""
-    echo -e "${YELLOW}                    WHATSAPP : 085263390832${RESET}"
-    echo -e "${GREEN}                    YOUTUBE  : RAINMC${RESET}"
     echo ""
+    echo -e "${BLUE}                    WHATSAPP : 085263390832${RESET}"
+    echo -e "${YELLOW}                    YOUTUBE  : RAINMC${RESET}"
     echo ""
 }
 
 # Fungsi instalasi perangkat lunak
 install_software() {
-    echo "MASUKAN ULANG LICENSE ANDA"
+    echo -e "LICENSE ANDA BENAR, SILAKAN MASUKAN ULANG"
 }
 
-# Fungsi untuk animasi teks berkedip
+# Fungsi untuk animasi teks berkedip satu per satu
 animate_text() {
     local text="$1"
-    local delay="${2:-3.1}"
-    local colors=("$RED" "$GREEN" "$BLUE" "$YELLOW")
+    local delay="${2:-0.1}"
 
-    for (( i = 0; i < 10; i++ )); do
-        color_index=$(( $i % ${#colors[@]} ))
-        echo -en "${colors[$color_index]}"
-        echo -en "$text"
-        sleep "$delay"
-        echo -en "\r${RESET}"
+    for (( i = 0; i < ${#text}; i++ )); do
+        echo -en "${text:$i:1}"
         sleep "$delay"
     done
+    echo -e "${RESET}"
 }
 
 # Main script
@@ -77,7 +86,6 @@ if check_license; then
 else
     exit 1
 fi
-
 # Fungsi untuk menangani pilihan "FIX YARN"
 fix_yarn() {
     echo "Anda memilih untuk memperbaiki YARN."
@@ -283,7 +291,7 @@ if check_license; then
     echo "> 1. FIX YARN"
     echo "> 2. INSTALL THEME ENIGMA"
     echo "> 3. INSTALL BILLING MODULE"
-    echo "> 4. INSTALL THEME ICE MINECRAFT (ERROR)"
+    echo "> 4. INSTALL THEME ICE MINECRAFT"
     echo "> 5. UNINSTALL THEME"
     echo "> 6. HAPUS FILE PTERODACTYL"
 
