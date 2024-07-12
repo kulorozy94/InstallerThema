@@ -277,28 +277,21 @@ uninstall_theme() {
         exit 1
     fi
 }
-
-# Meminta dan memeriksa lisensi
-echo "Masukkan lisensi Anda:"
-read -r LICENSE_KEY
-echo "$LICENSE_KEY" > "$LICENSE_FILE"
-
-if check_license; then
-    echo "Lisensi valid. Memulai instalasi..."
-    install_software
-    display_message
-
-    # Menampilkan pilihan setelah instalasi selesai
+# Fungsi untuk menampilkan menu opsi
+show_menu() {
     echo "Pilihan:"
-    echo "> 1. FIX YARN"
-    echo "> 2. INSTALL THEME ENIGMA" 
-    echo "> 3. INSTALL BILLING MODULE"
-    echo "> 4. INSTALL THEME ICE MINECRAFT"
-    echo "> 5. UNINSTALL THEME"
-    echo "> 6. HAPUS FILE PTERODACTYL"
+    echo "1. FIX YARN"
+    echo "2. INSTALL THEME ENIGMA"
+    echo "3. INSTALL BILLING MODULE"
+    echo "4. INSTALL THEME ICE MINECRAFT"
+    echo "5. UNINSTALL THEME"
+    echo "6. HAPUS FILE PTERODACTYL"
+    echo "7. KELUAR"
+}
 
-    # Menambahkan prompt dengan tanda panah (>)
-    read -p "PILIH OPSI (1-6) : " CHOICE
+# Fungsi untuk menangani pilihan setelah instalasi selesai
+handle_choice() {
+    read -p "PILIH OPSI (1-7): " CHOICE
     case "$CHOICE" in
         1)
             fix_yarn
@@ -315,14 +308,34 @@ if check_license; then
         5)
             uninstall_theme
             ;;
-        6)  
+        6)
             deletefilesptero
             ;;
+        7)
+            echo "𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗣𝗥𝗢𝗚𝗥𝗔𝗠 𝗥𝗔𝗜𝗡𝗠𝗖"
+            exit 0
+            ;;
         *)
-            echo "Pilihan tidak valid. Keluar."
-            exit 1
+            echo "Pilihan tidak valid. Silakan coba lagi."
             ;;
     esac
+}
+
+# Main program
+echo "Masukkan lisensi Anda:"
+read -r LICENSE_KEY
+echo "$LICENSE_KEY" > "$LICENSE_FILE"
+
+if check_license; then
+    echo "Lisensi valid. Memulai instalasi..."
+    install_software
+    display_message
+
+    while true
+    do
+        show_menu
+        handle_choice
+    done
 else
     echo "Lisensi tidak valid. Instalasi dibatalkan."
     exit 1
