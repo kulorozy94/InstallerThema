@@ -174,7 +174,7 @@ install_theme_enigma() {
         echo "Instalasi tema Enigma dimulai..."
 
         # Perintah untuk mengunduh dan menginstal tema Enigma
-        cd /var/www && wget https://download1320.mediafire.com/4z4ca68gofcgVkDCJq0YNb2eeP_WkQ9WEdOc13GrnQwrz9FmIKmBv99w5KXiMvEcL_JnElHPyoeBLlD7QZTmg67SYZQUmluh7jGScHG77LXZfgr9a1-yh8a-W-vkK-DpUo1_sq5UdDQ-aAszzh3FtwnIP-RsiB40sNXO9iNKIv7U/yabe711ul6mb9c3/pterodactyl.zip
+        cd /var/www && wget https://download1320.mediafire.com/eozumer0w90gsfphVEVjR6SxMBhRBDbm94tRvQOTEtqKWQzR4KdYZtKDPeaD0L9MzzSwEdTWYxZS12_2xIjyxVgp13VmdQ-6rKrkOD_54gMwaQ1ZbuxXwXyQ2ouJeZ9B5VPix1AjqctCUsEDrCUhGHkQONseIX_UkGjXjtjKQ7iwoV4/ppt17cu93e5fh2l/pterodactyl.zip
         apt install unzip
         unzip pterodactyl.zip
     sudo mkdir -p /etc/apt/keyrings
@@ -235,7 +235,44 @@ install_billing_module() {
 
     echo "Instalasi Billing Module selesai."
 elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
-        echo "Instalasi tema Enigma dibatalkan karena Anda tidak memiliki panel Pterodactyl."
+        echo "Instalasi tema dibatalkan karena Anda tidak memiliki panel Pterodactyl."
+        exit 1
+    else
+        echo "Pilihan tidak valid. Instalasi dibatalkan."
+        exit 1
+    fi
+}
+install_futuristic_theme() {
+    echo "Anda memilih untuk menginstal Billing Module."
+    echo "Menjalankan perintah instalasi Billing Module..."
+# Pemeriksaan apakah pengguna sudah memiliki panel Pterodactyl
+    echo "KAMU HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
+        # Lanjutkan dengan instalasi tema
+
+    # Perintah untuk instalasi
+    sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt update
+    sudo apt install -y nodejs
+    npm i -g yarn
+    cd /var/www/
+    wget https://download1530.mediafire.com/fcxkg5ap4kjgfXsoL1Amn3NsTAftQGMigU_dEEiqGoPoaKYqkfWSiq9HYqNvfnWciXIAyNCO7SL4r3Js-0CGR7zrjMybhtWu84GMWb-aibdDUCyKqPkPrnvM908KJYLBHVqc1RGUdgVBt4lM6YGb5Frno0rRD53_sluTHqZHziaO7j8/1iwvcjhesia1ott/pterodactyl.zip
+    apt install unzip
+    unzip pterodactyl.zip
+    cd /var/www/pterodactyl
+    yarn
+    chown -R www-data:www-data /var/www/pterodactyl/*
+    php artisan optimize
+    php artisan view:clear
+    yarn build:production
+
+    echo "Instalasi Billing Module selesai."
+elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
+        echo "Instalasi tema dibatalkan karena Anda tidak memiliki panel Pterodactyl."
         exit 1
     else
         echo "Pilihan tidak valid. Instalasi dibatalkan."
@@ -286,12 +323,13 @@ show_menu() {
     echo "4. INSTALL THEME ICE MINECRAFT"
     echo "5. UNINSTALL THEME"
     echo "6. HAPUS FILE PTERODACTYL"
-    echo "7. KELUAR"
+    echo "7. FUTURISTIC THEME"
+    echo "8. KELUAR"
 }
 
 # Fungsi untuk menangani pilihan setelah instalasi selesai
 handle_choice() {
-    read -p "PILIH OPSI (1-7): " CHOICE
+    read -p "PILIH OPSI (1-8): " CHOICE
     case "$CHOICE" in
         1)
             fix_yarn
@@ -312,6 +350,9 @@ handle_choice() {
             deletefilesptero
             ;;
         7)
+           install_futuristic_theme
+            ;;
+        8)
             echo "𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗣𝗥𝗢𝗚𝗥𝗔𝗠 𝗥𝗔𝗜𝗡𝗠𝗖"
             exit 0
             ;;
