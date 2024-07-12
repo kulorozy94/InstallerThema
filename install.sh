@@ -289,8 +289,8 @@ if check_license; then
     # Menampilkan pilihan setelah instalasi selesai
     echo "Pilihan:"
     echo "> 1. FIX YARN"
-    echo "> 2. INSTALL THEME ENIGMA"
-    echo "> 3. INSTALL BILLING MODULE"
+    echo "> 2. INSTALL THEME ENIGMA" (ERROR)
+    echo "> 3. INSTALL BILLING MODULE" (ERROR)
     echo "> 4. INSTALL THEME ICE MINECRAFT"
     echo "> 5. UNINSTALL THEME"
     echo "> 6. HAPUS FILE PTERODACTYL"
