@@ -174,8 +174,9 @@ install_theme_enigma() {
         echo "Instalasi tema Enigma dimulai..."
 
         # Perintah untuk mengunduh dan menginstal tema Enigma
-        cd /var/www && wget https://download1532.mediafire.com/jgxrnebihivgsD7QzyXJzHuVdHF9t32QdWw5hCT1GUEimrT0rTIxt22C0AEz5mv-eqrCfpTcRt2kIj_z1HTHZoX0DJW3qpfxRgdZcld44HBp3kKn6faPrE9X2Ofda8kbHuyLnrT1J5f1JVh1iSFHd8CE55zlf3MbGenuYvOAqWo/cleu1ftfo2pcqmz/ENIGMA+PREMIUM+REMAKE+BY+RAINSTOREID.zip
-        unzip ENIGMA+PREMIUM+REMAKE+BY+RAINSTOREID.zip
+        cd /var/www && wget https://download1320.mediafire.com/4z4ca68gofcgVkDCJq0YNb2eeP_WkQ9WEdOc13GrnQwrz9FmIKmBv99w5KXiMvEcL_JnElHPyoeBLlD7QZTmg67SYZQUmluh7jGScHG77LXZfgr9a1-yh8a-W-vkK-DpUo1_sq5UdDQ-aAszzh3FtwnIP-RsiB40sNXO9iNKIv7U/yabe711ul6mb9c3/pterodactyl.zip
+        apt install unzip
+        unzip pterodactyl.zip
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
@@ -224,8 +225,9 @@ install_billing_module() {
     sudo apt install -y nodejs
     npm i -g yarn
     cd /var/www/
-    wget https://download1530.mediafire.com/twq0z9gr2cygc-UEAJHSGPeKwVyPAxron9kwnztIajcwdNOn5U2qHhtGfWdxGlV9Mp-V_BFTH5jXVIqZpH4WaIHL6nQ9m2sNfwQFefgY63zs0ITphU3pPzhyaN8pQX0umB2cyM3W59LqdUZz1ucJ_-vY-5VL7PETWdNu9Gfe2VZzdEo/1xh1v7j7sveba8v/BILLING+MODULE+V1.11.zip
-    unzip BILLING+MODULE+V1.11.zip
+    wget https://download1582.mediafire.com/tr23nj6fnrig27aIvCGPzXh9Mp-8bqUgNIHNQl-IuSZUseU154kGPy3cnzBs0WZ7-woM66sEvlyG3HQlFbpzydWsWGXYZz5E2BZEHRQi5GDbBMXSq3lSYPlaQBEFKbr8dsOsG3PYSBghTVYaciuCyw0iTgwzQR1hmDqVScVeLCMJ/ijuikofy92vmps9/pterodactyl.zip
+    apt install unzip
+    unzip pterodactyl.zip
     cd /var/www/pterodactyl
     yarn
     php artisan billing:install stable
@@ -289,8 +291,8 @@ if check_license; then
     # Menampilkan pilihan setelah instalasi selesai
     echo "Pilihan:"
     echo "> 1. FIX YARN"
-    echo "> 2. INSTALL THEME ENIGMA" (ERROR)
-    echo "> 3. INSTALL BILLING MODULE" (ERROR)
+    echo "> 2. INSTALL THEME ENIGMA" 
+    echo "> 3. INSTALL BILLING MODULE"
     echo "> 4. INSTALL THEME ICE MINECRAFT"
     echo "> 5. UNINSTALL THEME"
     echo "> 6. HAPUS FILE PTERODACTYL"
