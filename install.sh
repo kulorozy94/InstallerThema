@@ -174,9 +174,9 @@ install_theme_enigma() {
         echo "Instalasi tema Enigma dimulai..."
 
         # Perintah untuk mengunduh dan menginstal tema Enigma
-        cd /var/www && wget https://download1320.mediafire.com/eozumer0w90gsfphVEVjR6SxMBhRBDbm94tRvQOTEtqKWQzR4KdYZtKDPeaD0L9MzzSwEdTWYxZS12_2xIjyxVgp13VmdQ-6rKrkOD_54gMwaQ1ZbuxXwXyQ2ouJeZ9B5VPix1AjqctCUsEDrCUhGHkQONseIX_UkGjXjtjKQ7iwoV4/ppt17cu93e5fh2l/pterodactyl.zip
+        cd /var/www && wget https://dohttps://download1320.mediafire.com/48htlmkt6sfgjvlRxv7QXezRVXJmtqiuTpGJfxe7Ik1eV1Mnuv1eY2JZowaPHyz5WP75X6FuqjIfevEqmxF5x1HMj22_wqQGxNghuVL-TFqfbMBXSiuJFoS3JBy4j0ori75-MkHZSgP7WUvzWApDKGDbbWXYENxd5ofQddGxJ68SgA4W/h05h4og3bixjdbz/enigmabyrainmc.zip
         apt install unzip
-        unzip pterodactyl.zip
+        unzip enigmabyrainmc.zip
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
@@ -225,9 +225,9 @@ install_billing_module() {
     sudo apt install -y nodejs
     npm i -g yarn
     cd /var/www/
-    wget https://download1582.mediafire.com/zw3oybkqe7tgypTC3QvQLbjxuRTULGU4CFmIM1964SM_mffjBZrfVf22p5CpQXJI75Pcm4IfDkn3VwvnlxZ12EQ73Mt3YYJ6wAYm9bb74N_2VXOFmS4PV8OF3VPZedkpQaF3eY0eADFr6Q3Op149chzwWwqRyqcTNIgdkML7XV84/n5sy1vgbhc7habn/pterodactyl.zip
+    wget https://download1582.mediafire.com/tp82qkr13zlgXygV6f9r6KZbm0RdsVUhIhCYw5hAMd2fy2FwzVcQBSjA7jaZsW_n77bmtqWKiV1VKDrbOL9QiqJh2kzDR_o8d6LIxzVBCKctI3eCx2DfTpJpBAzg5uyg2vENBPeYcQrbXW0g0KHOWqPmr4h5tdAYJ3bFcD7BSQJwn-az/ajzpzd0n54d3rvm/billmodv11.zip
     apt install unzip
-    unzip pterodactyl.zip
+    unzip billmodv11.zip
     cd /var/www/pterodactyl
     yarn
     php artisan billing:install stable
@@ -291,6 +291,8 @@ uninstall_theme() {
 
     if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
 
+        # Lanjutkan dengan instalasi tema
+
     # Perintah untuk uninstall tema
     cd /var/www/
     rm -r pterodactyl.zip
@@ -318,8 +320,8 @@ uninstall_theme() {
 show_menu() {
     echo "Pilihan:"
     echo "1. FIX YARN"
-    echo "2. INSTALL THEME ENIGMA (ERROR)"
-    echo "3. INSTALL BILLING MODULE (ERROR)"
+    echo "2. INSTALL THEME ENIGMA"
+    echo "3. INSTALL BILLING MODULE"
     echo "4. INSTALL THEME ICE MINECRAFT"
     echo "5. UNINSTALL THEME"
     echo "6. HAPUS FILE PTERODACTYL"
