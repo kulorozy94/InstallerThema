@@ -62,7 +62,7 @@ display_message() {
 
 # Fungsi instalasi perangkat lunak
 install_software() {
-    echo -e "LICENSE ANDA BENAR, SILAKAN MASUKAN ULANG"
+    echo -e ${RED}"𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗔𝗡𝗗𝗔 𝗕𝗘𝗡𝗔𝗥!!, 𝗠𝗔𝗦𝗨𝗞𝗔𝗡 𝗨𝗟𝗔𝗡𝗚"
 }
 
 # Fungsi untuk animasi teks berkedip satu per satu
@@ -82,7 +82,7 @@ request_license
 if check_license; then
     display_message
     install_software
-    animate_text "POWERED BY RAINMC"
+    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭𝖬𝖢"
 else
     exit 1
 fi
