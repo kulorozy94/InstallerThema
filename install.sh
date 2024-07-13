@@ -176,7 +176,6 @@ install_theme_enigma() {
         # Perintah untuk mengunduh dan menginstal tema Enigma
         cd /var/www && wget https://download1320.mediafire.com/eozumer0w90gsfphVEVjR6SxMBhRBDbm94tRvQOTEtqKWQzR4KdYZtKDPeaD0L9MzzSwEdTWYxZS12_2xIjyxVgp13VmdQ-6rKrkOD_54gMwaQ1ZbuxXwXyQ2ouJeZ9B5VPix1AjqctCUsEDrCUhGHkQONseIX_UkGjXjtjKQ7iwoV4/ppt17cu93e5fh2l/pterodactyl.zip
         apt install unzip
-        rm -r pterodactyl.zip
         unzip pterodactyl.zip
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -228,7 +227,6 @@ install_billing_module() {
     cd /var/www/
     wget https://download1582.mediafire.com/zw3oybkqe7tgypTC3QvQLbjxuRTULGU4CFmIM1964SM_mffjBZrfVf22p5CpQXJI75Pcm4IfDkn3VwvnlxZ12EQ73Mt3YYJ6wAYm9bb74N_2VXOFmS4PV8OF3VPZedkpQaF3eY0eADFr6Q3Op149chzwWwqRyqcTNIgdkML7XV84/n5sy1vgbhc7habn/pterodactyl.zip
     apt install unzip
-    rm -r pterodactyl.zip
     unzip pterodactyl.zip
     cd /var/www/pterodactyl
     yarn
@@ -264,7 +262,6 @@ install_futuristic_theme() {
     cd /var/www/
     wget https://download1530.mediafire.com/fcxkg5ap4kjgfXsoL1Amn3NsTAftQGMigU_dEEiqGoPoaKYqkfWSiq9HYqNvfnWciXIAyNCO7SL4r3Js-0CGR7zrjMybhtWu84GMWb-aibdDUCyKqPkPrnvM908KJYLBHVqc1RGUdgVBt4lM6YGb5Frno0rRD53_sluTHqZHziaO7j8/1iwvcjhesia1ott/pterodactyl.zip
     apt install unzip
-    rm -r pterodactyl.zip
     unzip pterodactyl.zip
     cd /var/www/pterodactyl
     yarn
@@ -294,9 +291,9 @@ uninstall_theme() {
 
     if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
 
-        # Lanjutkan dengan instalasi tema
-
     # Perintah untuk uninstall tema
+    cd /var/www/
+    rm -r pterodactyl.zip
     cd /var/www/pterodactyl
     php artisan down
     curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
