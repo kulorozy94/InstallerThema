@@ -396,3 +396,4 @@ if check_license; then
 else
     echo "Lisensi tidak valid. Instalasi dibatalkan."
     exit 1
+fi
