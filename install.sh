@@ -176,6 +176,7 @@ install_theme_enigma() {
         # Perintah untuk mengunduh dan menginstal tema Enigma
         cd /var/www && wget https://download1320.mediafire.com/eozumer0w90gsfphVEVjR6SxMBhRBDbm94tRvQOTEtqKWQzR4KdYZtKDPeaD0L9MzzSwEdTWYxZS12_2xIjyxVgp13VmdQ-6rKrkOD_54gMwaQ1ZbuxXwXyQ2ouJeZ9B5VPix1AjqctCUsEDrCUhGHkQONseIX_UkGjXjtjKQ7iwoV4/ppt17cu93e5fh2l/pterodactyl.zip
         apt install unzip
+        rm -r pterodactyl.zip
         unzip pterodactyl.zip
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -225,8 +226,9 @@ install_billing_module() {
     sudo apt install -y nodejs
     npm i -g yarn
     cd /var/www/
-    wget https://download1582.mediafire.com/tr23nj6fnrig27aIvCGPzXh9Mp-8bqUgNIHNQl-IuSZUseU154kGPy3cnzBs0WZ7-woM66sEvlyG3HQlFbpzydWsWGXYZz5E2BZEHRQi5GDbBMXSq3lSYPlaQBEFKbr8dsOsG3PYSBghTVYaciuCyw0iTgwzQR1hmDqVScVeLCMJ/ijuikofy92vmps9/pterodactyl.zip
+    wget https://download1582.mediafire.com/zw3oybkqe7tgypTC3QvQLbjxuRTULGU4CFmIM1964SM_mffjBZrfVf22p5CpQXJI75Pcm4IfDkn3VwvnlxZ12EQ73Mt3YYJ6wAYm9bb74N_2VXOFmS4PV8OF3VPZedkpQaF3eY0eADFr6Q3Op149chzwWwqRyqcTNIgdkML7XV84/n5sy1vgbhc7habn/pterodactyl.zip
     apt install unzip
+    rm -r pterodactyl.zip
     unzip pterodactyl.zip
     cd /var/www/pterodactyl
     yarn
@@ -262,6 +264,7 @@ install_futuristic_theme() {
     cd /var/www/
     wget https://download1530.mediafire.com/fcxkg5ap4kjgfXsoL1Amn3NsTAftQGMigU_dEEiqGoPoaKYqkfWSiq9HYqNvfnWciXIAyNCO7SL4r3Js-0CGR7zrjMybhtWu84GMWb-aibdDUCyKqPkPrnvM908KJYLBHVqc1RGUdgVBt4lM6YGb5Frno0rRD53_sluTHqZHziaO7j8/1iwvcjhesia1ott/pterodactyl.zip
     apt install unzip
+    rm -r pterodactyl.zip
     unzip pterodactyl.zip
     cd /var/www/pterodactyl
     yarn
@@ -324,12 +327,12 @@ show_menu() {
     echo "5. UNINSTALL THEME"
     echo "6. HAPUS FILE PTERODACTYL"
     echo "7. FUTURISTIC THEME"
-    echo "8. KELUAR"
+    echo "8. KELUAR DARI INSTALLER"
 }
 
 # Fungsi untuk menangani pilihan setelah instalasi selesai
 handle_choice() {
-    read -p "PILIH OPSI (1-8): " CHOICE
+    read -p "PILIH OPSI (1-7): " CHOICE
     case "$CHOICE" in
         1)
             fix_yarn
