@@ -436,12 +436,13 @@ show_menu() {
     echo "5. UNINSTALL THEME"
     echo "6. HAPUS FILE PTERODACTYL"
     echo "7. FUTURISTIC THEME (𝗘𝗥𝗥𝗢𝗥)"
-    echo "8. KELUAR DARI INSTALLER"
+    echo "8. INSTALL CONTROL PANEL PTERODACTYL"
+    echo "9. KELUAR DARI INSTALLER"
 }
 
 # Fungsi untuk menangani pilihan setelah instalasi selesai
 handle_choice() {
-    read -p "PILIH OPSI (1-8): " CHOICE
+    read -p "PILIH OPSI (1-9): " CHOICE
     case "$CHOICE" in
         1)
             fix_yarn
@@ -462,10 +463,15 @@ handle_choice() {
             deletefilesptero
             ;;
         7)
-           install_futuristic_theme
+            install_futuristic_theme
             ;;
         8)
-            echo "𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗨 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖"
+            curl -s https://raw.githubusercontent.com/rainmc0123/rainmc0123/main/install2.sh -o /tmp/install2.sh
+            source /tmp/install2.sh
+            return 0
+            ;;
+        9)
+            echo "𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖"
             exit 0
             ;;
         *)
@@ -488,6 +494,9 @@ if check_license; then
     do
         show_menu
         handle_choice
+        if [ $? -eq 0 ]; then
+            break
+        fi
     done
 else
     echo "Lisensi tidak valid. Instalasi dibatalkan."
