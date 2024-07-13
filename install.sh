@@ -117,11 +117,6 @@ elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
     fi
 }
 installThemeice(){
-        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
-        read -r HAS_PTERODACTYL
-
-        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
-        read -r HAS_PTERODACTYL
     cd /var/www/
     tar -cvf IceMinecraftTheme.tar.gz pterodactyl
     echo "Installing theme..."
@@ -400,3 +395,4 @@ if check_license; then
     done
 else
     echo "Lisensi tidak valid. Instalasi dibatalkan."
+    exit 1
