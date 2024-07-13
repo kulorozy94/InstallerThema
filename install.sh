@@ -117,6 +117,11 @@ elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
     fi
 }
 installThemeice(){
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_PTERODACTYL
+
+        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
+        read -r HAS_PTERODACTYL
     cd /var/www/
     tar -cvf IceMinecraftTheme.tar.gz pterodactyl
     echo "Installing theme..."
@@ -170,38 +175,49 @@ install_theme_enigma() {
     read -r HAS_PTERODACTYL
 
     if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
-        # Lanjutkan dengan instalasi tema Enigma
-        echo "Instalasi tema Enigma dimulai..."
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_PTERODACTYL
 
-        # Perintah untuk mengunduh dan menginstal tema Enigma
-        cd /var/www && wget https://download1326.mediafire.com/dk2qpzvxvfagsPwd4n8u9GSBaV6v2DDreOJRfhGm9nbjvdSTY6KaaakiLZMnokwAZvZkS1oxVGWnuef9UjF7XdoPbH9s77YXEeWqX2-dBUOLHk_1JrBOYYobaxXZ9MJAreqIqZltgzynNIPt_0Rxj3anUUjhZJCfvuZkx4WfKvz1OjMx/pdvrji1qrwm487y/enigmarain.zip
-        apt install unzip
-        unzip enigmarain.zip
-    sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
-    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-    sudo apt update
-    sudo apt install -y nodejs
-    npm i -g yarn
-    cd /var/www/pterodactyl
-    yarn
-    yarn build:production
-        echo "Tema Enigma telah diinstal."
+        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
+            # Lanjutkan dengan instalasi tema Enigma
+            echo "Instalasi tema Enigma dimulai..."
 
-        # Perintah untuk instalasi tambahan
-        echo "Melakukan konfigurasi tambahan..."
+            # Perintah untuk mengunduh dan menginstal tema Enigma
+            cd /var/www && git clone https://github.com/rainmc0123/RainMc.git
+            mv /var/www/RainMc/enigmarain.zip /var/www/
+            rm -r RainMc
+            apt install unzip
+            unzip enigmarain.zip
+            sudo mkdir -p /etc/apt/keyrings
+            curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+            echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+            sudo apt update
+            sudo apt install -y nodejs
+            npm i -g yarn
+            cd /var/www/pterodactyl
+            yarn
+            yarn build:production
+            echo "Tema Enigma telah diinstal."
 
-        # Pemeriksaan dan instalasi dependensi (contoh)
-        # Misalnya:
-        # sudo apt update
-        # sudo apt install -y package_name
+            # Perintah untuk instalasi tambahan
+            echo "Melakukan konfigurasi tambahan..."
 
-        echo "Konfigurasi tambahan selesai."
-    elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
-        echo "Dibatalkan."
-        exit 1
+            # Pemeriksaan dan instalasi dependensi (contoh)
+            # Misalnya:
+            # sudo apt update
+            # sudo apt install -y package_name
+
+            echo "Konfigurasi tambahan selesai."
+        elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ] || [ "$HAS_PTERODACTYL" == "n" ] || [ "$HAS_PTERODACTYL" == "N" ]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
     else
-        echo "Pilihan tidak valid. Instalasi dibatalkan."
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
         exit 1
     fi
 }
@@ -235,7 +251,7 @@ install_billing_module() {
 
     echo "Instalasi Billing Module selesai."
 elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
-        echo "Instalasi tema dibatalkan karena Anda tidak memiliki panel Pterodactyl."
+        echo "Instalasi tema dibatalkan"
         exit 1
     else
         echo "Pilihan tidak valid. Instalasi dibatalkan."
@@ -272,7 +288,7 @@ install_futuristic_theme() {
 
     echo "Instalasi Billing Module selesai."
 elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ]; then
-        echo "Instalasi tema dibatalkan karena Anda tidak memiliki panel Pterodactyl."
+        echo "Instalasi tema dibatalkan"
         exit 1
     else
         echo "Pilihan tidak valid. Instalasi dibatalkan."
@@ -296,6 +312,9 @@ uninstall_theme() {
     # Perintah untuk uninstall tema
     cd /var/www/
     rm -r pterodactyl.zip
+    rm -r enigmarain.zip
+    rm -r RainMc
+    rm -r billmodv11.zip
     cd /var/www/pterodactyl
     php artisan down
     curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
@@ -381,5 +400,3 @@ if check_license; then
     done
 else
     echo "Lisensi tidak valid. Instalasi dibatalkan."
-    exit 1
-fi
