@@ -174,9 +174,9 @@ install_theme_enigma() {
         echo "Instalasi tema Enigma dimulai..."
 
         # Perintah untuk mengunduh dan menginstal tema Enigma
-        cd /var/www && wget https://dohttps://download1320.mediafire.com/48htlmkt6sfgjvlRxv7QXezRVXJmtqiuTpGJfxe7Ik1eV1Mnuv1eY2JZowaPHyz5WP75X6FuqjIfevEqmxF5x1HMj22_wqQGxNghuVL-TFqfbMBXSiuJFoS3JBy4j0ori75-MkHZSgP7WUvzWApDKGDbbWXYENxd5ofQddGxJ68SgA4W/h05h4og3bixjdbz/enigmabyrainmc.zip
+        cd /var/www && wget https://download1326.mediafire.com/dk2qpzvxvfagsPwd4n8u9GSBaV6v2DDreOJRfhGm9nbjvdSTY6KaaakiLZMnokwAZvZkS1oxVGWnuef9UjF7XdoPbH9s77YXEeWqX2-dBUOLHk_1JrBOYYobaxXZ9MJAreqIqZltgzynNIPt_0Rxj3anUUjhZJCfvuZkx4WfKvz1OjMx/pdvrji1qrwm487y/enigmarain.zip
         apt install unzip
-        unzip enigmabyrainmc.zip
+        unzip enigmarain.zip
     sudo mkdir -p /etc/apt/keyrings
     curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
     echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
@@ -331,7 +331,7 @@ show_menu() {
 
 # Fungsi untuk menangani pilihan setelah instalasi selesai
 handle_choice() {
-    read -p "PILIH OPSI (1-7): " CHOICE
+    read -p "PILIH OPSI (1-8): " CHOICE
     case "$CHOICE" in
         1)
             fix_yarn
