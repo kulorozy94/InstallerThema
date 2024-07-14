@@ -32,10 +32,10 @@ display_message() {
     echo "|  _ <  / ___ \\ | || |\\  | |  | | |___"
     echo "|_| \\_\\/_/   \\_\\___|_| \\_|_|  |_|\\____|"
     echo ""
-    echo "          \\ \\/ /"
-    echo "           \\  /"
-    echo "           /  \\"
-    echo "          /_/\\_\\"
+    echo "             \\ \\/ /"
+    echo "               \\  /"
+    echo "               /  \\"
+    echo "              /_/\\_\\"
     echo ""
     echo "_   _    _    ____ _____  _    ____  _______     __"
     echo "| | | |  / \\  / ___|_   _|/ \\  |  _ \\| ____\\ \\   / /"
@@ -71,7 +71,7 @@ animate_text() {
 if check_license; then
     display_message
     install_software
-    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖭𝖬𝖢"
+    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭𝖬𝖢"
 else
     echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
