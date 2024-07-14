@@ -52,7 +52,7 @@ display_message() {
 
 # Fungsi instalasi perangkat lunak
 install_software() {
-    "${RESET}"𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗔𝗡𝗗𝗔 𝗕𝗘𝗡𝗔𝗥!!, 𝗠𝗔𝗦𝗨𝗞𝗔𝗡 𝗨𝗟𝗔𝗡𝗚"
+    echo -e ${RED}"𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗔𝗡𝗗𝗔 𝗕𝗘𝗡𝗔𝗥!!, 𝗠𝗔𝗦𝗨𝗞𝗔𝗡 𝗨𝗟𝗔𝗡𝗚"
 }
 
 # Fungsi untuk animasi teks berkedip satu per satu
@@ -71,7 +71,7 @@ animate_text() {
 if check_license; then
     display_message
     install_software
-    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭𝖬𝖢"
+    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖭𝖬𝖢"
 else
     echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
@@ -86,10 +86,11 @@ else
         exit 1
     fi
 fi
+
 # Fungsi untuk menangani pilihan "FIX YARN"
 fix_yarn() {
     echo "Anda memilih untuk memperbaiki YARN."
-    echo "Menjalankan perintah perbaikan YARN..."
+    echo "Menjalankan perintah perbaikan YARN"
 # Pemeriksaan apakah pengguna sudah memiliki panel Pterodactyl
     echo "KAMU HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
     read -r HAS_PTERODACTYL
@@ -510,6 +511,8 @@ trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟬 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘
 LICENSE_FILE="/etc/license_file"
 LICENSE_TIMESTAMP_FILE="/etc/timestamp_file"
 SKIP_HI_FILE="/etc/skip_hi_file"
+RESET='\033[0m'
+GREEN='\033[1;32m'
 
 show_menu() {
     local current_timestamp
@@ -579,11 +582,11 @@ handle_choice() {
             install_register_pterodactyl
             ;;
         10)
-            echo -e ${GREEN}"𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖"${RESET}
+            echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"
             exit 0
             ;;
         *)
-            "${RESET}"Pilihan tidak Benar Silakan coba lagi"${RESET}
+            echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}"
             ;;
     esac
 }
@@ -619,7 +622,7 @@ fi
 if [ -s "$LICENSE_TIMESTAMP_FILE" ]; then
     LAST_TIMESTAMP=$(cat "$LICENSE_TIMESTAMP_FILE")
     CURRENT_TIMESTAMP=$(date +%s)
-    let DIFF=($CURRENT_TIMESTAMP-$LAST_TIMESTAMP)/86400
+    DIFF=$(( (CURRENT_TIMESTAMP - LAST_TIMESTAMP) / 86400 ))
 
     if [ $DIFF -ge 1 ]; then
         echo "Lisensi telah kadaluarsa, silakan masukkan kembali lisensi Anda:"
@@ -637,14 +640,13 @@ else
 fi
 
 if check_license; then
-    echo -e ${GREEN}"(𝗔𝗨𝗧𝗢𝗠𝗔𝗧𝗜𝗖) 𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗕𝗘𝗡𝗔𝗥"${RESET}
+    echo -e "${GREEN}(𝗔𝗨𝗧𝗢𝗠𝗔𝗧𝗜𝗖) 𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗕𝗘𝗡𝗔𝗥${RESET}"
     install_software
     display_message
 
     first_run=true
 
-    while true
-    do
+    while true; do
         if [ "$first_run" == true ]; then
             show_menu "first"
             first_run=false
@@ -654,6 +656,6 @@ if check_license; then
         handle_choice
     done
 else
-    "${RESET}"Lisensi tidak Benar Instalasi dibatalkan."${RESET}
+    echo -e "${RESET}Lisensi tidak Benar Instalasi dibatalkan.${RESET}"
     exit 1
 fi
