@@ -352,10 +352,10 @@ if [ "$MYSQL_PASSWORD" == true ]; then
     mysql -u root -p"$MYSQL_ROOT_PASS" -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${DB_HOST}';" &>/dev/null
     mysql -u root -p"$MYSQL_ROOT_PASS" -e "FLUSH PRIVILEGES;" &>/dev/null
   else
-    mysql -u root -e "BUAT DATABASE  ${DB_NAME};"
-    mysql -u root -e "BUAT PENGGUNA '${DB_USER}'@'${DB_HOST}' DIIDENTIFIKASI OLEH '${DB_PASS}';"
-    mysql -u root -e "BERIKAN SEMUA HAK ISTIMEWA ${DB_NAME}.* TO '${DB_USER}'@'${DB_HOST}';"
-    mysql -u root -e "HAK ISTIMEWA PENYIMPANAN;"
+    mysql -u root -e "CREATE DATABASE ${DB_NAME};"
+    mysql -u root -e "CREATE USER '${DB_USER}'@'${DB_HOST}' IDENTIFIED BY '${DB_PASS}';"
+    mysql -u root -e "GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'${DB_HOST}';"
+    mysql -u root -e "FLUSH PRIVILEGES;"
 fi
 }
 
@@ -669,45 +669,56 @@ check_compatibility
 
 # Set FQDN for panel #
 while [ -z "$FQDN" ]; do
-  print_warning "Jangan gunakan domain yang sudah digunakan oleh aplikasi lain, misalnya domain pterodactyl Anda."
-  echo -ne "* Tetapkan Nama Host/FQDN untuk panel (${YELLOW}panel.example.com${RESET}): "
+  print_warning "Jangan gunakan domain yang sudah digunakan, misalnya domain pterodactyl Anda."
+  echo -e ${YELLOW}"SILAHKAN MASUKAN DOMAIN CTRLPANEL ANDA DI BAWAH INI JIKA JIKA TIDAK ADA KALIAN BISA ADDRECORD DI DNS DENGAN MENGGUNAKAN IP VPS INI, DAN JANGAN SAMAKAN DOMAIN INI DENGAN DOMAIN YANG LAIN"${RESET}
+  echo -ne "* MASUKAN DOMAIN(FDQN) CTRLPANEL (${YELLOW}panel.example.com${RESET}): "
   read -r FQDN
   [ -z "$FQDN" ] && print_error "FQDN tidak boleh kosong"
 done
 
 # Install the packages to check FQDN and ask about SSL only if FQDN is a string #
+echo -e ${YELLOW}"PILIH y DAN MASUKAN EMAIL KALIAN SETELAH ENTER"${RESET}
 if [[ "$FQDN" == [a-zA-Z]* ]]; then
   ask_ssl
 fi
 
 # Set host of the database #
+echo -e ${YELLOW}"UNTUK HOST DATABASE KALIAN BOLEH SKIP YA DENGAN MENEKAN ENTER"${RESET}
 echo -ne "* Masukkan host database (${YELLOW}127.0.0.1${RESET}): "
 read -r DB_HOST
 [ -z "$DB_HOST" ] && DB_HOST="127.0.0.1"
 
 # Set port of the database #
+echo -e ${YELLOW}"DATABASE PORT KALIAN BOLEH SKIP YA DENGAN MENEKAN ENTER"${RESET}
 echo -ne "* Masukkan port database (${YELLOW}3306${RESET}): "
 read -r DB_PORT
 [ -z "$DB_PORT" ] && DB_PORT="3306"
 
 # Set name of the database #
+echo -e ${YELLOW}"NAMA DATABASE KALIAN BOLEH SKIP YA DENGAN MENEKAN ENTER"${RESET}
 echo -ne "* Masukkan nama database (${YELLOW}controlpanel${RESET}): "
 read -r DB_NAME
 [ -z "$DB_NAME" ] && DB_NAME="controlpanel"
 
 # Set user of the database #
+echo -e ${YELLOW}"NAMA PENGGUNA DATABASE KALIAN BOLEH SKIP YA DENGAN MENEKAN ENTER"${RESET}
 echo -ne "*  Masukkan nama pengguna database (${YELLOW}controlpaneluser${RESET}): "
 read -r DB_USER
 [ -z "$DB_USER" ] && DB_USER="controlpaneluser"
 
 # Set pass of the database #
-password_input DB_PASS "Masukkan kata sandi database (Masukkan untuk kata sandi acak): " "Kata sandi tidak boleh kosong!" "$RANDOM_PASSWORD"
+echo -e ${YELLOW}"KATA SANDI DATABASE KALIAN BISA SETERAH AJA YA ASALKAN KALIAN INGAT CONTOHNYA BISA KALIAN MASUKAN NAMA KALIAN ATAU HEWAN KALIAN"${RESET}
+password_input DB_PASS "Masukkan kata sandi database: " "Kata sandi tidak boleh kosong!" "$RANDOM_PASSWORD"
 
 # Ask Time-Zone #
 echo -e "* Daftar zona waktu yang valid di sini: ${YELLOW}$(hyperlink "http://php.net/manual/en/timezones.php")${RESET}"
-echo -ne "* Select Time-Zone (${YELLOW}America/New_York${RESET}): "
+echo -e ${YELLOW}"KALO KALIAN DI INDONESIA KALIAN BISA ISI INI DENGAN"${RESET}
+echo -e ${YELLOW}"Asia/Jakarta"${RESET}
+echo -e ${YELLOW}"JIKA KALIAN DI TIDAK BERADA DI INDONESIA KALIAN BISA ISI"${RESET}
+echo -e ${YELLOW}"America/New_York"${RESET}
+echo -ne "* Masukan TimeZone (${YELLOW}Asia/Jakarta${RESET}): "
 read -r TIMEZONE
-[ -z "$TIMEZONE" ] && TIMEZONE="America/New_York"
+[ -z "$TIMEZONE" ] && TIMEZONE="Asia/Jakarta"
 
 # Summary #
 echo
@@ -741,6 +752,7 @@ mkdir -p $INFORMATIONS
 } > $INFORMATIONS/install.info
 
 # Confirm all the choices #
+echo -e ${YELLOW}"PILIH y UNTUK MELANJUTKAN DAN PILIH n UNTUK BERHENTI"${RESET}
 echo -n "* Setting awal sudah selesai, mau lanjut ke instalasi? (y/N): "
 read -r CONTINUE_INSTALL
 [[ "$CONTINUE_INSTALL" =~ [Yy] ]] && install_controlpanel
