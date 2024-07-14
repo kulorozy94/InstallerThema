@@ -12,7 +12,7 @@ RESET='\033[0m'  # Reset text color to default
 check_license() {
     if [ -f "$LICENSE_FILE" ]; then
         LICENSE_KEY=$(cat "$LICENSE_FILE")
-        if [ "$LICENSE_KEY" == "V1PSCR1PTBYDZ4KY" ]; then
+        if [ "$LICENSE_KEY" == "RAIN" ]; then
             return 0
         fi
     fi
@@ -45,7 +45,8 @@ display_message() {
     echo -e "${RESET}"
     echo ""
     echo ""
-    echo -e "${ORANGE}                    WHATSAPP : 085657013784${RESET}"
+    echo -e "${BLUE}                    WHATSAPP : 085263390832${RESET}"
+    echo -e "${YELLOW}                    YOUTUBE  : RAINMC${RESET}"
     echo ""
 }
 
@@ -70,7 +71,7 @@ animate_text() {
 if check_license; then
     display_message
     install_software
-    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖧𝖤𝖢𝖳𝖠𝖣𝖤𝖵"
+    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭𝖬𝖢"
 else
     echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
@@ -79,13 +80,12 @@ else
     if [ $? -eq 0 ]; then
         display_message
         install_software
-        animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖧𝖤𝖢𝖳𝖠𝖣𝖤𝖵"
+        animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭"
     else
         echo "Lisensi tidak valid."
         exit 1
     fi
 fi
-
 # Fungsi untuk menangani pilihan "FIX YARN"
 fix_yarn() {
     echo "Anda memilih untuk memperbaiki YARN."
@@ -216,7 +216,7 @@ echo "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔"
             npm i -g yarn
             cd /var/www/pterodactyl
             yarn
-   echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜??𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
+   echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
             yarn build:production
             echo "Tema Enigma telah diinstal."
 
@@ -446,6 +446,10 @@ uninstall_theme() {
 LICENSE_FILE="/tmp/license_key"
 LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp"
 
+trap '' SIGINT
+
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟵 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥";' SIGINT
+
 show_menu() {
     if [ "$1" == "first" ]; then
         message="SAYA ADALAH PROGRAM YANG DIBUAT UNTUK MEMBANTU ANDA, SILAHKAN DIPILIH OPSI DIBAWAH INI."
@@ -458,16 +462,15 @@ show_menu() {
     echo -e "\n\033[1;34mPilihan:\033[0m"
     for i in {1..9}; do
         case $i in
-            1) echo -e "\033[1;34m1. 𝗙𝗶𝘅 𝗬𝗮𝗿𝗻 𝗘𝗿𝗿𝗼𝗿\033[0m";;
-            2) echo -e "\033[1;34m2. 𝗘𝗻𝗶𝗴𝗺𝗮 𝗧𝗵𝗲𝗺𝗲 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗲𝗿\033[0m";;
-            3) echo -e "\033[1;34m3. 𝗕𝗶𝗹𝗹𝗶𝗻𝗴 𝗠𝗼𝗱𝘂𝗹𝗲 𝗣𝘁𝗲𝗿𝗼𝗱𝗮𝗰𝘁𝘆𝗹 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗲𝗿\033[0m";;
-            4) echo -e "\033[1;34m4. 𝗜𝗰𝗲 𝗧𝗵𝗲𝗺𝗲 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗲𝗿\033[0m";;
-            5) echo -e "\033[1;34m5. 𝗨𝗻𝗶𝗻𝘀𝘁𝗮𝗹𝗹 𝗧𝗵𝗲𝗺𝗲 \033[0m";;
-            6) echo -e "\033[1;34m6. 𝗛𝗮𝗽𝘂𝘀 𝗙𝗶𝗹𝗲 𝗣𝘁𝗲𝗿𝗼𝗱𝗮𝗰𝘁𝘆𝗹\033[0m";;
-            7) echo -e "\033[1;34m7. 𝗙𝘂𝘁𝘂𝗿𝗶𝘀𝘁𝗶𝗰 𝗧𝗵𝗲𝗺𝗲 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗲𝗿 (𝗘𝗥𝗥𝗢𝗥)\033[0m";;
-            8) echo -e "\033[1;34m8. 𝗜𝗻𝘀𝘁𝗮𝗹𝗹 𝗖𝗼𝗻𝘁𝗿𝗼𝗹 𝗣𝗮𝗻𝗲𝗹 𝗣𝘁𝗲𝗿𝗼𝗱𝗮𝗰𝘁𝘆𝗹\033[0m";;
-            9) echo -e "\033[1;34m9. 𝗜𝗻𝘀𝘁𝗮𝗹𝗹 𝗣𝘁𝗲𝗿𝗼𝗱𝗮𝗰𝘁𝘆𝗹 𝗣𝗮𝗻𝗲𝗹\033[0m";;
-            10) echo -e "\033[1;34m9. 𝗞𝗲𝗹𝘂𝗮𝗿 𝗗𝗮𝗿𝗶 𝗜𝗻𝘀𝘁𝗮𝗹𝗹𝗲𝗿\033[0m";;
+            1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
+            2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
+            3) echo -e "\033[1;34m3. INSTALL BILLING MODULE\033[0m";;
+            4) echo -e "\033[1;34m4. INSTALL THEME ICE MINECRAFT\033[0m";;
+            5) echo -e "\033[1;34m5. UNINSTALL THEME\033[0m";;
+            6) echo -e "\033[1;34m6. HAPUS FILE PTERODACTYL\033[0m";;
+            7) echo -e "\033[1;34m7. FUTURISTIC THEME (𝗘𝗥𝗥𝗢𝗥)\033[0m";;
+            8) echo -e "\033[1;34m8. INSTALL CONTROL PANEL PTERODACTYL\033[0m";;
+            9) echo -e "\033[1;34m9. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
@@ -501,11 +504,8 @@ handle_choice() {
             curl -s https://raw.githubusercontent.com/rainmc0123/rainmc0123/main/install2.sh -o /tmp/install2.sh
             source /tmp/install2.sh
             ;;
-        9) 
-           bash <(curl -s https://pterodactyl-installer.se)
-           ;;
-        10)
-            echo -e ${GREEN}"𝗔𝗡𝗗𝗔 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 , 𝗧𝗘𝗥𝗜𝗠𝗔𝗞𝗔𝗦𝗜𝗛"${RESET}
+        9)
+            echo -e ${GREEN}"𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖"${RESET}
             exit 0
             ;;
         *)
@@ -544,7 +544,7 @@ if [ -f "$LICENSE_TIMESTAMP_FILE" ]; then
         LICENSE_KEY=$(cat "$LICENSE_FILE")
     fi
 else
-    echo "𝗠𝗮𝘀𝘂𝗸𝗸𝗮𝗻 𝗟𝗶𝗰𝗲𝗻𝘀𝗲:"
+    echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
     echo "$LICENSE_KEY" > "$LICENSE_FILE"
     echo "$(date +%s)" > "$LICENSE_TIMESTAMP_FILE"
@@ -571,4 +571,3 @@ else
     echo -e ${RED}"Lisensi tidak Benar Instalasi dibatalkan."${RESET}
     exit 1
 fi
-
