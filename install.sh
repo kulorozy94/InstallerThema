@@ -52,7 +52,7 @@ display_message() {
 
 # Fungsi instalasi perangkat lunak
 install_software() {
-    echo -e ${RED}"𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗔𝗡𝗗𝗔 𝗕𝗘𝗡𝗔𝗥!!, 𝗠𝗔𝗦𝗨𝗞𝗔𝗡 𝗨𝗟𝗔𝗡𝗚"
+    "${RESET}"𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗔𝗡𝗗𝗔 𝗕𝗘𝗡𝗔𝗥!!, 𝗠𝗔𝗦𝗨𝗞𝗔𝗡 𝗨𝗟𝗔𝗡𝗚"
 }
 
 # Fungsi untuk animasi teks berkedip satu per satu
@@ -219,6 +219,63 @@ echo "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔"
    echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
             yarn build:production
             echo "Tema Enigma telah diinstal."
+
+            # Perintah untuk instalasi tambahan
+            echo "Melakukan konfigurasi tambahan..."
+
+            # Pemeriksaan dan instalasi dependensi (contoh)
+            # Misalnya:
+            # sudo apt update
+            # sudo apt install -y package_name
+
+            echo "Konfigurasi tambahan selesai."
+        elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ] || [ "$HAS_PTERODACTYL" == "n" ] || [ "$HAS_PTERODACTYL" == "N" ]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
+    else
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
+        exit 1
+    fi
+}
+install_register_pterodactyl() {
+echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
+    
+        echo "APAKAH ANDA YAKIN? (y/n)"
+        read -r HAS_PTERODACTYL        
+        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            echo "ᴊɪᴋᴀ ᴀᴅᴀ ᴘɪʟɪʜᴀɴ ᴅɪʙᴀᴡᴀʜ sɪʟᴀʜᴋᴀɴ ᴘɪʟɪʜ Y"
+
+            # Perintah untuk mengunduh dan menginstal tema Enigma
+            apt install git
+            cd /var/www && git clone https://github.com/rainmc0123/rainregis
+            mv /var/www/rainmc0123/registerrain.zip /var/www/
+            rm -r rainmc0123
+            apt install unzip
+echo "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔"
+            unzip registerrain.zip       
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            echo "ᴊɪᴋᴀ ᴀᴅᴀ ᴘɪʟɪʜᴀɴ ᴅɪʙᴀᴡᴀʜ sɪʟᴀʜᴋᴀɴ ᴘɪʟɪʜ ʏ"
+            sudo mkdir -p /etc/apt/keyrings
+            curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+            echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+            sudo apt update
+            sudo apt install -y nodejs
+            npm i -g yarn
+            cd /var/www/pterodactyl
+            yarn
+   echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
+            yarn build:production
+            php artisan view:clear
+            echo -e ${ORANGE}"REGISTER SUDAH TERPASANG, DAN PASTIKAN EMAIL SMTP ANDA WORK"
 
             # Perintah untuk instalasi tambahan
             echo "Melakukan konfigurasi tambahan..."
@@ -448,19 +505,32 @@ LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp"
 
 trap '' SIGINT
 
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟵 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥";' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟬 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥";' SIGINT
+
+LICENSE_FILE="/etc/license_file"
+LICENSE_TIMESTAMP_FILE="/etc/timestamp_file"
+SKIP_HI_FILE="/etc/skip_hi_file"
 
 show_menu() {
+    local current_timestamp
+    current_timestamp=$(date +%s)
+
     if [ "$1" == "first" ]; then
-        message="SAYA ADALAH PROGRAM YANG DIBUAT UNTUK MEMBANTU ANDA, SILAHKAN DIPILIH OPSI DIBAWAH INI."
-        for (( i=0; i<${#message}; i++ )); do
-            echo -n "${message:$i:1}"
-            sleep 0.1
-        done
-        echo
+        if [ ! -f "$SKIP_HI_FILE" ]; then
+            message="SAYA ADALAH PROGRAM YANG DIBUAT UNTUK MEMBANTU ANDA, SILAHKAN DIPILIH OPSI DIBAWAH INI."
+            for (( i=0; i<${#message}; i++ )); do
+                echo -n "${message:$i:1}"
+                sleep 0.1
+            done
+            echo
+            echo "$(date +%s)" > "$LICENSE_TIMESTAMP_FILE"
+        else
+            echo "(SKIP SAY HI)"
+        fi
     fi
+
     echo -e "\n\033[1;34mPilihan:\033[0m"
-    for i in {1..9}; do
+    for i in {1..10}; do
         case $i in
             1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
             2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
@@ -470,14 +540,15 @@ show_menu() {
             6) echo -e "\033[1;34m6. HAPUS FILE PTERODACTYL\033[0m";;
             7) echo -e "\033[1;34m7. FUTURISTIC THEME (𝗘𝗥𝗥𝗢𝗥)\033[0m";;
             8) echo -e "\033[1;34m8. INSTALL CONTROL PANEL PTERODACTYL\033[0m";;
-            9) echo -e "\033[1;34m9. KELUAR DARI INSTALLER\033[0m";;
+            9) echo -e "\033[1;34m9. INSTALL REGISTER PTERODACTYL\033[0m";;
+            10) echo -e "\033[1;34m10. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
 }
 
 handle_choice() {
-    read -p "PILIH OPSI (1-9): " CHOICE
+    read -p "PILIH OPSI (1-10): " CHOICE
     case "$CHOICE" in
         1)
             fix_yarn
@@ -505,11 +576,14 @@ handle_choice() {
             source /tmp/install2.sh
             ;;
         9)
+            install_register_pterodactyl
+            ;;
+        10)
             echo -e ${GREEN}"𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖"${RESET}
             exit 0
             ;;
         *)
-            echo -e ${RED}"Pilihan tidak Benar Silakan coba lagi"${RESET}
+            "${RESET}"Pilihan tidak Benar Silakan coba lagi"${RESET}
             ;;
     esac
 }
@@ -530,7 +604,19 @@ display_message() {
 }
 
 # Main program
-if [ -f "$LICENSE_TIMESTAMP_FILE" ]; then
+if [ ! -f "$LICENSE_TIMESTAMP_FILE" ]; then
+    touch "$LICENSE_TIMESTAMP_FILE"
+fi
+
+if [ ! -f "$LICENSE_FILE" ]; then
+    touch "$LICENSE_FILE"
+fi
+
+if [ ! -f "$SKIP_HI_FILE" ]; then
+    touch "$SKIP_HI_FILE"
+fi
+
+if [ -s "$LICENSE_TIMESTAMP_FILE" ]; then
     LAST_TIMESTAMP=$(cat "$LICENSE_TIMESTAMP_FILE")
     CURRENT_TIMESTAMP=$(date +%s)
     let DIFF=($CURRENT_TIMESTAMP-$LAST_TIMESTAMP)/86400
@@ -568,6 +654,6 @@ if check_license; then
         handle_choice
     done
 else
-    echo -e ${RED}"Lisensi tidak Benar Instalasi dibatalkan."${RESET}
+    "${RESET}"Lisensi tidak Benar Instalasi dibatalkan."${RESET}
     exit 1
 fi
