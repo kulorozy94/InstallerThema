@@ -8,7 +8,8 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RESET='\033[0m'  # Reset text color to default
-
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
 check_license() {
     if [ -f "$LICENSE_FILE" ]; then
         LICENSE_KEY=$(cat "$LICENSE_FILE")
@@ -71,7 +72,7 @@ animate_text() {
 if check_license; then
     display_message
     install_software
-    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖭𝖬𝖢"
+    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭𝖬𝖢"
 else
     echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
@@ -230,6 +231,79 @@ echo "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔"
             # sudo apt install -y package_name
 
             echo "Konfigurasi tambahan selesai."
+        elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ] || [ "$HAS_PTERODACTYL" == "n" ] || [ "$HAS_PTERODACTYL" == "N" ]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
+    else
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
+        exit 1
+    fi
+}
+installnightcoretheme(){
+
+echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
+    
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_PTERODACTYL        
+        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            
+    apt install sudo -y > /dev/null 2>&1
+    cd /var/www/ > /dev/null 2>&1
+    tar -cvf Pterodactyl_Nightcore_Themebackup.tar.gz pterodactyl > /dev/null 2>&1
+    echo -e "${GREEN}𝟯𝟬%${RESET}"
+    cd /var/www/pterodactyl > /dev/null 2>&1
+    echo -e "${GREEN}𝟲𝟬℅${RESET}"
+    rm -r Pterodactyl_Nightcore_Theme > /dev/null 2>&1
+    echo -e "${GREEN}𝟴𝟬%${RESET}"
+    git clone https://github.com/NoPro200/Pterodactyl_Nightcore_Theme.git > /dev/null 2>&1
+    cd Pterodactyl_Nightcore_Theme > /dev/null 2>&1
+    echo -e "${GREEN}𝟵𝟬%${RESET}"
+    rm /var/www/pterodactyl/resources/scripts/Pterodactyl_Nightcore_Theme.css > /dev/null 2>&1
+    rm /var/www/pterodactyl/resources/scripts/index.tsx > /dev/null 2>&1
+    echo -e "${GREEN}𝟵𝟱%${RESET}"
+    echo -e "${GREEN}KEMUNGKINAN AKAN SEDIKIT LAMA,SELAMAT MENUNGGU${RESET}"
+    mv index.tsx /var/www/pterodactyl/resources/scripts/index.tsx > /dev/null 2>&1
+    mv Pterodactyl_Nightcore_Theme.css /var/www/pterodactyl/resources/scripts/Pterodactyl_Nightcore_Theme.css > /dev/null 2>&1
+    cd /var/www/pterodactyl > /dev/null 2>&1
+    
+    curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - > /dev/null 2>&1
+    apt update -y > /dev/null 2>&1
+    apt install nodejs -y > /dev/null 2>&1
+    
+    NODE_VERSION=$(node -v)
+    REQUIRED_VERSION="v16.20.2"
+    if [ "$NODE_VERSION" != "$REQUIRED_VERSION" ]; then
+        echo -e "${GREEN}Node.js version is not ${YELLOW}${REQUIRED_VERSION}${GREEN}. Version: ${YELLOW}${NODE_VERSION}${RESET}"
+        echo -e "${GREEN}Set version to ${YELLOW}v16.20.2${GREEN}... ${RESET}"
+        sudo npm install -g n > /dev/null 2>&1
+        sudo n 16 > /dev/null 2>&1
+        node -v > /dev/null 2>&1
+        npm -v > /dev/null  2>&1
+        echo -e "${GREEN}Now the default version is ${YELLOW}${REQUIRED_VERSION}"
+    else
+        echo -e "${GREEN}Node.js Version is compatible: ${YELLOW}${NODE_VERSION} ${RESET}"
+    fi
+
+    apt install npm -y > /dev/null 2>&1
+    npm i -g yarn > /dev/null 2>&1
+    yarn > /dev/null 2>&1
+
+    cd /var/www/pterodactyl > /dev/null 2>&1
+    echo -e "${GREEN}𝟵𝟴%${RESET}"
+    yarn build:production > /dev/null 2>&1
+    echo -e "${GREEN}𝟭𝟬𝟬%${RESET}"
+    sudo php artisan optimize:clear > /dev/null 2>&1
+    echo -e "${BLUE}𝗜𝗡𝗦𝗧𝗔𝗟𝗟 𝗖𝗢𝗠𝗣𝗟𝗜𝗖𝗔𝗧𝗘𝗗"
+    echo -e "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗖𝗘𝗞 𝗪𝗘𝗕 𝗣𝗔𝗡𝗘𝗟 𝗔𝗡𝗗𝗔${RESET}"
         elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ] || [ "$HAS_PTERODACTYL" == "n" ] || [ "$HAS_PTERODACTYL" == "N" ]; then
             echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
             echo "Dibatalkan."
@@ -531,6 +605,7 @@ uninstall_theme() {
     rm -r billmodv11.zip
     rm -r IceMinecraftTheme.tar.gz
     rm -r RainFuturistic
+    rm -r Pterodactyl_Nightcore_Themebackup.tar.gz
     cd /var/www/pterodactyl
     php artisan down
     curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
@@ -587,7 +662,7 @@ show_menu() {
     fi
 
     echo -e "\n\033[1;34mPilihan:\033[0m"
-    for i in {1..11}; do
+    for i in {1..12}; do
         case $i in
             1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
             2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
@@ -599,14 +674,15 @@ show_menu() {
             8) echo -e "\033[1;34m8. INSTALL CTRLPANEL PTERODACTYL\033[0m";;
             9) echo -e "\033[1;34m9. INSTALL REGISTER PTERODACTYL\033[0m";;
             10) echo -e "\033[1;34m10. INSTALL NOOKTHEME PTERODACTYL\033[0m";;
-            11) echo -e "\033[1;34m11. KELUAR DARI INSTALLER\033[0m";;
+            11) echo -e "\033[1;34m11. INSTALL NIGHTCORE THEME\033[0m";;
+            12) echo -e "\033[1;34m12. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
 }
 
 handle_choice() {
-    read -p "PILIH OPSI (1-11): " CHOICE
+    read -p "PILIH OPSI (1-12): " CHOICE
     case "$CHOICE" in
         1) fix_yarn;;
         2) install_theme_enigma;;
@@ -618,7 +694,8 @@ handle_choice() {
         8) curl -s https://raw.githubusercontent.com/rainmc0123/rainmc0123/main/install2.sh -o /tmp/install2.sh; source /tmp/install2.sh;;
         9) install_register_pterodactyl;;
         10) install_theme_nooktheme;;
-        11) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
+        11) installnightcoretheme;;
+        12) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
         *) echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}";;
     esac
 }
