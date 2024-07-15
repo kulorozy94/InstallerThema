@@ -386,13 +386,12 @@ installthememcube() {
             if [[ $os_name == *"Ubuntu"* ]]; then
                 echo "This is Ubuntu. Proceeding with the script."
 
-                cd /var/www/ || exit
-                tar -cvf McubeTheme.tar.gz pterodactyl
-                echo -e "${GREEN}𝟯𝟬%${RESET}"
-                cd /var/www/pterodactyl || exit
-                rm -rf McubeTheme
-                git clone https://github.com/MBG-Codes-You/McubeTheme.git
-                cd McubeTheme || exit
+cd /var/www/
+    tar -cvf McubeTheme.tar.gz pterodactyl
+    cd /var/www/pterodactyl
+    rm -rf McubeTheme
+    git clone https://github.com/MBG-Codes-You/McubeTheme.git
+    cd McubeTheme
                 rm /var/www/pterodactyl/resources/scripts/MineCube.css
                 rm /var/www/pterodactyl/resources/scripts/index.tsx
                 rm /var/www/pterodactyl/resources/scripts/components/server/console/Console.tsx
@@ -709,7 +708,7 @@ RESET='\033[0m'
 GREEN='\033[1;32m'
 
 trap '' SIGINT
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭3 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟯 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
 
 show_menu() {
     if [ "$1" == "first" ]; then
