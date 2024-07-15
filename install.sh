@@ -108,6 +108,7 @@ fix_yarn() {
     npm i -g yarn
     cd /var/www/pterodactyl
    echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
+   yarn
     yarn build:production
 
     echo "Perbaikan YARN selesai."
@@ -144,15 +145,15 @@ installThemeice(){
             mv resources/scripts/components/server/console/Console.tsx /var/www/pterodactyl/resources/scripts/components/server/console/Console.tsx
             cd /var/www/pterodactyl
 
-            curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-            apt update
-            apt install -y nodejs
-
-            npm i -g yarn
-            yarn
-
+            sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt update
+    sudo apt install -y nodejs
+    npm i -g yarn
             cd /var/www/pterodactyl
    echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
+           yarn
             yarn build:production
             sudo php artisan optimize:clear
 
@@ -365,6 +366,80 @@ echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNY
         fi
     else
         echo "Anda harus memiliki panel Pterodactyl terlebih dahulu."
+        exit 1
+    fi
+}
+installthememcube() {
+    echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [[ "$HAS_PTERODACTYL" == "YES" || "$HAS_PTERODACTYL" == "yes" ]]; then
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_CLEARED_THEMES
+
+        if [[ "$HAS_CLEARED_THEMES" == "y" || "$HAS_CLEARED_THEMES" == "Y" ]]; then
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            
+            os_name=$(grep '^NAME=' /etc/os-release | sed 's/NAME=//')
+
+            # Check if the OS name contains "Ubuntu"
+            if [[ $os_name == *"Ubuntu"* ]]; then
+                echo "This is Ubuntu. Proceeding with the script."
+
+                cd /var/www/ || exit
+                tar -cvf McubeTheme.tar.gz pterodactyl
+                echo -e "${GREEN}𝟯𝟬%${RESET}"
+                cd /var/www/pterodactyl || exit
+                rm -rf McubeTheme
+                git clone https://github.com/MBG-Codes-You/McubeTheme.git
+                cd McubeTheme || exit
+                rm /var/www/pterodactyl/resources/scripts/MineCube.css
+                rm /var/www/pterodactyl/resources/scripts/index.tsx
+                rm /var/www/pterodactyl/resources/scripts/components/server/console/Console.tsx
+                rm /var/www/pterodactyl/resources/views/admin/index.blade.php
+                rm /var/www/pterodactyl/resources/scripts/routers/ServerRouter.tsx
+                rm /var/www/pterodactyl/resources/scripts/components/auth/LoginFormContainer.tsx
+                rm /var/www/pterodactyl/resources/scripts/components/auth/LoginContainer.tsx
+                rm /var/www/pterodactyl/public/themes/pterodactyl/css/pterodactyl.css
+                mv resources/scripts/index.tsx /var/www/pterodactyl/resources/scripts/index.tsx
+                mv resources/scripts/MineCube.css /var/www/pterodactyl/resources/scripts/MineCube.css
+                mv resources/scripts/components/server/console/Console.tsx /var/www/pterodactyl/resources/scripts/components/server/console/Console.tsx
+                mv resources/scripts/index.blade.php /var/www/pterodactyl/resources/views/admin
+                mv resources/scripts/routers/ServerRouter.tsx /var/www/pterodactyl/resources/scripts/routers/ServerRouter.tsx
+                mv resources/scripts/components/auth/LoginContainer.tsx /var/www/pterodactyl/resources/scripts/components/auth/LoginContainer.tsx
+                echo -e "${GREEN}𝟲𝟬%${RESET}"
+                mv resources/scripts/components/auth/LoginFormContainer.tsx /var/www/pterodactyl/resources/scripts/components/auth/LoginFormContainer.tsx
+                mv public/themes/pterodactyl/pterodactyl.css /var/www/pterodactyl/public/themes/pterodactyl/css/pterodactyl.css
+                echo -e "${GREEN}𝟵𝟬%${RESET}"
+                apt update
+                apt install -y nodejs
+                echo -e "${ORANGE}JIKA ADA PILIHAN y/N SILAHKAN PILIH y${RESET}"
+                sudo mkdir -p /etc/apt/keyrings
+                curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+                echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+                sudo apt update
+                sudo apt install -y nodejs
+                npm i -g yarn
+                
+                cd /var/www/pterodactyl || exit
+                echo -e "${GREEN}𝟵𝟵%${RESET}"
+                yarn build:production
+                echo -e "${BLUE}𝗜𝗡𝗦𝗧𝗔𝗟𝗟 𝗖𝗢𝗠𝗣𝗟𝗜𝗖𝗔𝗧𝗘𝗗"
+                echo -e "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗖𝗘𝗞 𝗪𝗘𝗕 𝗣𝗔𝗡𝗘𝗟 𝗔𝗡𝗗𝗔${RESET}"
+            else
+                echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
+                exit 1
+            fi
+        elif [[ "$HAS_CLEARED_THEMES" == "NO" || "$HAS_CLEARED_THEMES" == "no" || "$HAS_CLEARED_THEMES" == "n" || "$HAS_CLEARED_THEMES" == "N" ]]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
+    else
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
         exit 1
     fi
 }
@@ -606,6 +681,7 @@ uninstall_theme() {
     rm -r IceMinecraftTheme.tar.gz
     rm -r RainFuturistic
     rm -r Pterodactyl_Nightcore_Themebackup.tar.gz
+    rm -r McubeTheme.tar.gz
     cd /var/www/pterodactyl
     php artisan down
     curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
@@ -626,27 +702,16 @@ uninstall_theme() {
         exit 1
     fi
 }
-LICENSE_FILE="/tmp/license_key"
-LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp"
-
-trap '' SIGINT
-
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟭 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
-
-LICENSE_FILE="/etc/license_file"
-LICENSE_TIMESTAMP_FILE="/etc/timestamp_file"
-SKIP_HI_FILE="/etc/skip_hi_file"
+LICENSE_FILE="/tmp/license.txt"
+LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp.txt"
+SKIP_HI_FILE="/tmp/skip_hi.txt"
 RESET='\033[0m'
 GREEN='\033[1;32m'
 
-SKIP_HI_FILE="/tmp/skip_hi.txt"
-LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp.txt"
-LICENSE_FILE="/tmp/license.txt"
+trap '' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟮 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
 
 show_menu() {
-    local current_timestamp
-    current_timestamp=$(date +%s)
-
     if [ "$1" == "first" ]; then
         if [ ! -f "$SKIP_HI_FILE" ]; then
             message="SAYA ADALAH PROGRAM YANG DIBUAT UNTUK MEMBANTU ANDA, SILAHKAN DIPILIH OPSI DIBAWAH INI."
@@ -655,14 +720,13 @@ show_menu() {
                 sleep 0.1
             done
             echo
-            echo "$(date +%s)" > "$LICENSE_TIMESTAMP_FILE"
         else
             echo -e "${YELLOW}(SKIP)${RESET}"
         fi
     fi
 
     echo -e "\n\033[1;34mPilihan:\033[0m"
-    for i in {1..12}; do
+    for i in {1..13}; do
         case $i in
             1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
             2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
@@ -670,19 +734,20 @@ show_menu() {
             4) echo -e "\033[1;34m4. INSTALL THEME ICE MINECRAFT\033[0m";;
             5) echo -e "\033[1;34m5. UNINSTALL THEME\033[0m";;
             6) echo -e "\033[1;34m6. HAPUS FILE PTERODACTYL\033[0m";;
-            7) echo -e "${RED}7. FUTURISTIC THEME 𝗘𝗥𝗥𝗢𝗥${RESET}";;
+            7) echo -e "${RED}7. FUTURISTIC THEME (𝗘𝗥𝗥𝗢𝗥)${RESET}";;
             8) echo -e "\033[1;34m8. INSTALL CTRLPANEL PTERODACTYL\033[0m";;
             9) echo -e "\033[1;34m9. INSTALL REGISTER PTERODACTYL\033[0m";;
             10) echo -e "\033[1;34m10. INSTALL NOOKTHEME PTERODACTYL\033[0m";;
-            11) echo -e "\033[1;34m11. INSTALL NIGHTCORE THEME\033[0m";;
-            12) echo -e "\033[1;34m12. KELUAR DARI INSTALLER\033[0m";;
+            11) echo -e "\033[1;34m11. INSTALL NIGHTCORE THEME PTERODACTYL\033[0m";;
+            12) echo -e "\033[1;34m12. INSTALL MCUBE THEME PTERODACTYL\033[0m";;
+            13) echo -e "\033[1;34m13. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
 }
 
 handle_choice() {
-    read -p "PILIH OPSI (1-12): " CHOICE
+    read -p "PILIH OPSI (1-13): " CHOICE
     case "$CHOICE" in
         1) fix_yarn;;
         2) install_theme_enigma;;
@@ -695,44 +760,25 @@ handle_choice() {
         9) install_register_pterodactyl;;
         10) install_theme_nooktheme;;
         11) installnightcoretheme;;
-        12) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
+        12) installthememcube;;
+        13) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
         *) echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}";;
     esac
 }
 
-# Main program
-if [ ! -f "$LICENSE_TIMESTAMP_FILE" ]; then
-    touch "$LICENSE_TIMESTAMP_FILE"
-fi
-
-if [ ! -f "$LICENSE_FILE" ]; then
-    touch "$LICENSE_FILE"
-fi
-
-if [ ! -f "$SKIP_HI_FILE" ]; then
-    touch "$SKIP_HI_FILE"
-fi
-
-if [ -s "$LICENSE_TIMESTAMP_FILE" ]; then
-    LAST_TIMESTAMP=$(cat "$LICENSE_TIMESTAMP_FILE")
-    CURRENT_TIMESTAMP=$(date +%s)
-    DIFF=$(( (CURRENT_TIMESTAMP - LAST_TIMESTAMP) / 86400 ))
-
-    if [ $DIFF -ge 1 ]; then
-        echo "Lisensi telah kadaluarsa, silakan masukkan kembali lisensi Anda:"
-        read -r LICENSE_KEY
-        echo "$LICENSE_KEY" > "$LICENSE_FILE"
-        echo "$(date +%s)" > "$LICENSE_TIMESTAMP_FILE"
-    else
-        LICENSE_KEY=$(cat "$LICENSE_FILE")
-    fi
-else
+check_license() {
     echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
-    echo "$LICENSE_KEY" > "$LICENSE_FILE"
-    echo "$(date +%s)" > "$LICENSE_TIMESTAMP_FILE"
-fi
+    # Add the logic to verify the license key here.
+    # This function should return 0 if the license is valid, and 1 otherwise.
+    if [ "$LICENSE_KEY" == "RAIN" ]; then
+        return 0
+    else
+        return 1
+    fi
+}
 
+# Main program
 if check_license; then
     echo -e "${GREEN}(𝗔𝗨𝗧𝗢𝗠𝗔𝗧𝗜𝗖) 𝗟𝗜𝗖𝗘𝗡𝗦𝗘 𝗕𝗘𝗡𝗔𝗥${RESET}"
     install_software
