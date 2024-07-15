@@ -32,10 +32,10 @@ display_message() {
     echo "|  _ <  / ___ \\ | || |\\  | |  | | |___"
     echo "|_| \\_\\/_/   \\_\\___|_| \\_|_|  |_|\\____|"
     echo ""
-    echo "              \\ \\/ /"
-    echo "               \\  /"
-    echo "               /  \\"
-    echo "              /_/\\_\\"
+    echo "          \\ \\/ /"
+    echo "           \\  /"
+    echo "           /  \\"
+    echo "          /_/\\_\\"
     echo ""
     echo "_   _    _    ____ _____  _    ____  _______     __"
     echo "| | | |  / \\  / ___|_   _|/ \\  |  _ \\| ____\\ \\   / /"
@@ -71,7 +71,7 @@ animate_text() {
 if check_license; then
     display_message
     install_software
-    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖨𝖭𝖬𝖢"
+    animate_text "𝖯𝖮𝖶𝖤𝖱𝖤𝖣 𝖡𝖸 𝖱𝖠𝖭𝖬𝖢"
 else
     echo "Masukkan lisensi Anda:"
     read -r LICENSE_KEY
@@ -243,6 +243,57 @@ echo "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔"
         exit 1
     fi
 }
+install_theme_nooktheme() {
+echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
+    
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_PTERODACTYL        
+        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            echo "ᴊɪᴋᴀ ᴀᴅᴀ ᴘɪʟɪʜᴀɴ ᴅɪʙᴀᴡᴀʜ sɪʟᴀʜᴋᴀɴ ᴘɪʟɪʜ Y"
+
+            # Perintah untuk mengunduh dan menginstal tema
+            apt install git
+            cd /var/www/pterodactyl
+            echo -e "${RED}PROSES PANEL ANDA AKAN DIMATIKAN SEMENTARA, UNTUK INSTALL TEMA${RESET}"
+            php artisan down
+            echo -e "PANEL ANDA TELAH DIMATIKAN, MOHON TIDAK MENUTUP SESSION INI"
+            curl -L https://github.com/Nookure/NookTheme/releases/latest/download/panel.tar.gz | tar -xzv
+           chmod -R 755 storage/* bootstrap/cache
+           echo -e ${YELLOW} "SILAHKAN KETIK yes"${RESET}
+           composer install --no-dev --optimize-autoloader
+           php artisan view:clear
+           php artisan config:clear
+           php artisan migrate --seed --force
+           chown -R www-data:www-data /var/www/pterodactyl/*
+           php artisan queue:restart
+            echo -e ${GREEN}"INSTALL THEME SELESAI"${RESET}
+           echo -e ${YELLOW}"PROSES MENGAKTIFKAN KEMBALI PANEL PTERODACTYL ANDA"${RESET}
+           php artisan up
+           echo -e ${GREEN}"SELESAI, SILAHKAN MASUK KE WEB PANEL PTERODACTYL ANDA"${RESET}
+
+            # Pemeriksaan dan instalasi dependensi (contoh)
+            # Misalnya:
+            # sudo apt update
+            # sudo apt install -y package_name
+
+            echo "Konfigurasi tambahan selesai."
+        elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ] || [ "$HAS_PTERODACTYL" == "n" ] || [ "$HAS_PTERODACTYL" == "N" ]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
+    else
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu."
+        exit 1
+    fi
+}
 install_register_pterodactyl() {
 echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
     read -r HAS_PTERODACTYL
@@ -276,7 +327,7 @@ echo "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔"
    echo -e {RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔"
             yarn build:production
             php artisan view:clear
-            echo -e ${ORANGE}"REGISTER SUDAH TERPASANG, DAN PASTIKAN EMAIL SMTP ANDA WORK"
+            echo -e ${YELLOW}"REGISTER SUDAH TERPASANG, DAN PASTIKAN EMAIL SMTP ANDA WORK"
 
             # Perintah untuk instalasi tambahan
             echo "Melakukan konfigurasi tambahan..."
@@ -500,19 +551,22 @@ uninstall_theme() {
         exit 1
     fi
 }
-# Fungsi untuk menampilkan menu opsi
 LICENSE_FILE="/tmp/license_key"
 LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp"
 
 trap '' SIGINT
 
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟬 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥";' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟭 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
 
 LICENSE_FILE="/etc/license_file"
 LICENSE_TIMESTAMP_FILE="/etc/timestamp_file"
 SKIP_HI_FILE="/etc/skip_hi_file"
 RESET='\033[0m'
 GREEN='\033[1;32m'
+
+SKIP_HI_FILE="/tmp/skip_hi.txt"
+LICENSE_TIMESTAMP_FILE="/tmp/license_timestamp.txt"
+LICENSE_FILE="/tmp/license.txt"
 
 show_menu() {
     local current_timestamp
@@ -528,12 +582,12 @@ show_menu() {
             echo
             echo "$(date +%s)" > "$LICENSE_TIMESTAMP_FILE"
         else
-            echo "(SKIP SAY HI)"
+            echo -e "${YELLOW}(SKIP)${RESET}"
         fi
     fi
 
     echo -e "\n\033[1;34mPilihan:\033[0m"
-    for i in {1..10}; do
+    for i in {1..11}; do
         case $i in
             1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
             2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
@@ -541,69 +595,32 @@ show_menu() {
             4) echo -e "\033[1;34m4. INSTALL THEME ICE MINECRAFT\033[0m";;
             5) echo -e "\033[1;34m5. UNINSTALL THEME\033[0m";;
             6) echo -e "\033[1;34m6. HAPUS FILE PTERODACTYL\033[0m";;
-            7) echo -e "\033[1;34m7. FUTURISTIC THEME (𝗘𝗥𝗥𝗢𝗥)\033[0m";;
-            8) echo -e "\033[1;34m8. INSTALL CONTROL PANEL PTERODACTYL\033[0m";;
+            7) echo -e "${RED}7. FUTURISTIC THEME 𝗘𝗥𝗥𝗢𝗥${RESET}";;
+            8) echo -e "\033[1;34m8. INSTALL CTRLPANEL PTERODACTYL\033[0m";;
             9) echo -e "\033[1;34m9. INSTALL REGISTER PTERODACTYL\033[0m";;
-            10) echo -e "\033[1;34m10. KELUAR DARI INSTALLER\033[0m";;
+            10) echo -e "\033[1;34m10. INSTALL NOOKTHEME PTERODACTYL\033[0m";;
+            11) echo -e "\033[1;34m11. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
 }
 
 handle_choice() {
-    read -p "PILIH OPSI (1-10): " CHOICE
+    read -p "PILIH OPSI (1-11): " CHOICE
     case "$CHOICE" in
-        1)
-            fix_yarn
-            ;;
-        2)
-            install_theme_enigma
-            ;;
-        3)
-            install_billing_module
-            ;;
-        4)
-            installThemeice
-            ;;
-        5)
-            uninstall_theme
-            ;;
-        6)
-            deletefilesptero
-            ;;
-        7)
-            install_futuristic_theme
-            ;;
-        8)
-            curl -s https://raw.githubusercontent.com/rainmc0123/rainmc0123/main/install2.sh -o /tmp/install2.sh
-            source /tmp/install2.sh
-            ;;
-        9)
-            install_register_pterodactyl
-            ;;
-        10)
-            echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"
-            exit 0
-            ;;
-        *)
-            echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}"
-            ;;
+        1) fix_yarn;;
+        2) install_theme_enigma;;
+        3) install_billing_module;;
+        4) installThemeice;;
+        5) uninstall_theme;;
+        6) deletefilesptero;;
+        7) install_futuristic_theme;;
+        8) curl -s https://raw.githubusercontent.com/rainmc0123/rainmc0123/main/install2.sh -o /tmp/install2.sh; source /tmp/install2.sh;;
+        9) install_register_pterodactyl;;
+        10) install_theme_nooktheme;;
+        11) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
+        *) echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}";;
     esac
-}
-
-check_license() {
-    # Tambahkan logika untuk memeriksa lisensi disini
-    true
-}
-
-install_software() {
-    # Tambahkan logika untuk menginstal perangkat lunak disini
-    true
-}
-
-display_message() {
-    # Tambahkan logika untuk menampilkan pesan setelah instalasi selesai disini
-    true
 }
 
 # Main program
