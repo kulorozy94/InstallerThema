@@ -369,6 +369,64 @@ echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNY
         exit 1
     fi
 }
+installminecraftpurpletheme(){
+    echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [[ "$HAS_PTERODACTYL" == "YES" || "$HAS_PTERODACTYL" == "yes" ]]; then
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_CLEARED_THEMES
+
+        if [[ "$HAS_CLEARED_THEMES" == "y" || "$HAS_CLEARED_THEMES" == "Y" ]]; then
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            
+            os_name=$(grep '^NAME=' /etc/os-release | sed 's/NAME=//')
+
+            # Check if the OS name contains "Ubuntu"
+            if [[ $os_name == *"Ubuntu"* ]]; then
+                echo "This is Ubuntu. Proceeding with the script."
+    cd /var/www/
+    tar -cvf MinecraftPurpleThemebackup.tar.gz pterodactyl
+    cd /var/www/pterodactyl
+    rm -r MinecraftPurpleTheme
+    git clone https://github.com/Angelillo15/MinecraftPurpleTheme.git
+    cd MinecraftPurpleTheme
+    rm /var/www/pterodactyl/resources/scripts/MinecraftPurpleTheme.css
+    rm /var/www/pterodactyl/resources/scripts/index.tsx
+    mv index.tsx /var/www/pterodactyl/resources/scripts/index.tsx
+    mv MinecraftPurpleTheme.css /var/www/pterodactyl/resources/scripts/MinecraftPurpleTheme.css
+    cd /var/www/pterodactyl
+               echo -e "${ORANGE}JIKA ADA PILIHAN y/N SILAHKAN PILIH y${RESET}"
+                sudo mkdir -p /etc/apt/keyrings
+                curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+                echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+                sudo apt update
+                sudo apt install -y nodejs
+                npm i -g yarn
+                
+                cd /var/www/pterodactyl || exit
+                echo -e "${GREEN}𝟵𝟵%${RESET}"
+                yarn build:production
+                    sudo php artisan optimize:clear
+                echo -e "${BLUE}𝗜𝗡𝗦𝗧𝗔𝗟𝗟 𝗖𝗢𝗠𝗣𝗟𝗜𝗖𝗔𝗧𝗘𝗗"
+                echo -e "𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗖𝗘𝗞 𝗪𝗘𝗕 𝗣𝗔𝗡𝗘𝗟 𝗔𝗡𝗗𝗔${RESET}"
+            else
+                echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
+                exit 1
+            fi
+        elif [[ "$HAS_CLEARED_THEMES" == "NO" || "$HAS_CLEARED_THEMES" == "no" || "$HAS_CLEARED_THEMES" == "n" || "$HAS_CLEARED_THEMES" == "N" ]]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
+    else
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
+        exit 1
+    fi
+}
 installthememcube() {
     echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
     read -r HAS_PTERODACTYL
@@ -708,7 +766,7 @@ RESET='\033[0m'
 GREEN='\033[1;32m'
 
 trap '' SIGINT
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟯 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟰 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
 
 show_menu() {
     if [ "$1" == "first" ]; then
@@ -725,7 +783,7 @@ show_menu() {
     fi
 
     echo -e "\n\033[1;34mPilihan:\033[0m"
-    for i in {1..13}; do
+    for i in {1..14}; do
         case $i in
             1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
             2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
@@ -739,14 +797,15 @@ show_menu() {
             10) echo -e "\033[1;34m10. INSTALL NOOKTHEME PTERODACTYL\033[0m";;
             11) echo -e "\033[1;34m11. INSTALL NIGHTCORE THEME PTERODACTYL\033[0m";;
             12) echo -e "\033[1;34m12. INSTALL MCUBE THEME PTERODACTYL\033[0m";;
-            13) echo -e "\033[1;34m13. KELUAR DARI INSTALLER\033[0m";;
+            13) echo -e "\033[1;34m13. INSTALL MINECRAFT PUPLE THEME PTERODACTYL\033[0m";;
+            14) echo -e "\033[1;34m14. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
 }
 
 handle_choice() {
-    read -p "PILIH OPSI (1-13): " CHOICE
+    read -p "PILIH OPSI (1-14): " CHOICE
     case "$CHOICE" in
         1) fix_yarn;;
         2) install_theme_enigma;;
@@ -760,7 +819,8 @@ handle_choice() {
         10) install_theme_nooktheme;;
         11) installnightcoretheme;;
         12) installthememcube;;
-        13) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
+        13) installminecraftpurpletheme;;
+        14) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
         *) echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}";;
     esac
 }
