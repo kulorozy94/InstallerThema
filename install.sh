@@ -500,6 +500,64 @@ cd /var/www/
         exit 1
     fi
 }
+install_stellartheme() {
+echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
+    read -r HAS_PTERODACTYL
+
+    if [ "$HAS_PTERODACTYL" == "YES" ] || [ "$HAS_PTERODACTYL" == "yes" ]; then
+    
+        echo "APAKAH ANDA SUDAH MENGHAPUS SEMUA THEME DI PANEL PTERODACTYL? (y/n)"
+        read -r HAS_PTERODACTYL        
+        if [ "$HAS_PTERODACTYL" == "y" ] || [ "$HAS_PTERODACTYL" == "Y" ]; then
+            echo "𝗣𝗥𝗢𝗦𝗘𝗦 𝗜𝗡𝗦𝗧𝗔𝗟𝗟"
+            echo "ᴊɪᴋᴀ ᴀᴅᴀ ᴘɪʟɪʜᴀɴ ᴅɪʙᴀᴡᴀʜ sɪʟᴀʜᴋᴀɴ ᴘɪʟɪʜ Y"
+                sudo mkdir -p /etc/apt/keyrings
+    curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_16.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
+    sudo apt update
+    sudo apt install -y nodejs
+    npm i -g yarn
+    apt install unzip
+    cd /var/www/pterodactyl
+    yarn
+    chown -R www-data:www-data /var/www/pterodactyl/*
+    php artisan optimize
+    php artisan view:clear
+    echo -e "${BLUE}𝗞𝗘𝗧𝗜𝗞 yes${RESET}"
+    php artisan migrate
+    yarn add react-feather
+            cd /var/www/
+            apt install git
+            git clone https://github.com/rainmc0123/Stellar
+            mv /var/www/Stellar/stellartheme.zip /var/www/
+            echo -e "${BLUE}𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗣𝗜𝗟𝗜𝗛 𝗔${RESET}"
+            unzip stellartheme.zip
+            echo "Installing theme..."
+            cd /var/www/pterodactyl
+   echo -e ${RED}"𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗗𝗜𝗧𝗨𝗡𝗚𝗚𝗨, 𝗜𝗡𝗜 𝗔𝗞𝗔𝗡 𝗦𝗘𝗗𝗜𝗞𝗜𝗧 𝗟𝗔𝗠𝗔${RESET}"
+            yarn build:production
+       echo -e ${BLUE}"𝗧𝗘𝗥𝗗𝗘𝗧𝗜𝗞𝗦𝗜 𝗞𝗘𝗥𝗨𝗦𝗔𝗞𝗔𝗡, SILAHKAN DITUNGGU SAYA AKAN BERUSAHA UNTUK MEMPERBAIKINYA${RESET}"
+       echo -e ${BLUE}"𝗣𝗘𝗥𝗕𝗔𝗜𝗞𝗔𝗡 𝗠𝗢𝗗𝗘${RESET}${RESET}"
+      sed -i 's/defaultValue={variable.serverValue}/defaultValue={variable.serverValue ?? ""}/g' resources/scripts/components/server/startup/VariableBox.tsx
+       echo -e "${BLUE}𝗣𝗘𝗥𝗕𝗔𝗜𝗞𝗔𝗡 𝗕𝗘𝗥𝗛𝗔𝗦𝗜𝗟 KITA COBA SEKALI LAGI${RESET}"
+       yarn build:production
+            sudo php artisan optimize:clear
+      echo -e "${GREEN}𝗕𝗘𝗥𝗛𝗔𝗦𝗜𝗟, 𝗦𝗜𝗟𝗔𝗛𝗞𝗔𝗡 𝗖𝗘𝗞 𝗪𝗘𝗕 𝗣𝗔𝗡𝗘𝗟 𝗔𝗡𝗗𝗔${RESET}"
+
+            echo "Konfigurasi tambahan selesai."
+        elif [ "$HAS_PTERODACTYL" == "NO" ] || [ "$HAS_PTERODACTYL" == "no" ] || [ "$HAS_PTERODACTYL" == "n" ] || [ "$HAS_PTERODACTYL" == "N" ]; then
+            echo "Mengabaikan konfigurasi tambahan untuk Pterodactyl."
+            echo "Dibatalkan."
+            exit 1
+        else
+            echo "Pilihan tidak valid. Instalasi dibatalkan."
+            exit 1
+        fi
+    else
+        echo "Anda harus memiliki panel Pterodactyl terlebih dahulu. Instalasi dibatalkan."
+        exit 1
+    fi
+}
 install_register_pterodactyl() {
 echo "ANDA HARUS MEMILIKI PANEL PTERODACTYL TERLEBIH DAHULU! APAKAH ANDA MEMPUNYAINYA? (YES/NO)"
     read -r HAS_PTERODACTYL
@@ -739,6 +797,8 @@ uninstall_theme() {
     rm -r RainFuturistic
     rm -r Pterodactyl_Nightcore_Themebackup.tar.gz
     rm -r McubeTheme.tar.gz
+    rm -r Stellar
+    rm -r stellartheme.zip
     cd /var/www/pterodactyl
     php artisan down
     curl -L https://github.com/pterodactyl/panel/releases/latest/download/panel.tar.gz | tar -xzv
@@ -766,7 +826,7 @@ RESET='\033[0m'
 GREEN='\033[1;32m'
 
 trap '' SIGINT
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟰 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟱 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
 
 show_menu() {
     if [ "$1" == "first" ]; then
@@ -783,7 +843,7 @@ show_menu() {
     fi
 
     echo -e "\n\033[1;34mPilihan:\033[0m"
-    for i in {1..14}; do
+    for i in {1..15}; do
         case $i in
             1) echo -e "\033[1;34m1. FIX YARN\033[0m";;
             2) echo -e "\033[1;34m2. INSTALL THEME ENIGMA\033[0m";;
@@ -798,14 +858,15 @@ show_menu() {
             11) echo -e "\033[1;34m11. INSTALL NIGHTCORE THEME PTERODACTYL\033[0m";;
             12) echo -e "\033[1;34m12. INSTALL MCUBE THEME PTERODACTYL\033[0m";;
             13) echo -e "\033[1;34m13. INSTALL MINECRAFT PUPLE THEME PTERODACTYL\033[0m";;
-            14) echo -e "\033[1;34m14. KELUAR DARI INSTALLER\033[0m";;
+            14) echo -e "\033[1;34m14. INSTALL STELLAR THEME PTERODACTYL\033[0m";;
+            15) echo -e "\033[1;34m15. KELUAR DARI INSTALLER\033[0m";;
         esac
         sleep 0.5
     done
 }
 
 handle_choice() {
-    read -p "PILIH OPSI (1-14): " CHOICE
+    read -p "PILIH OPSI (1-15): " CHOICE
     case "$CHOICE" in
         1) fix_yarn;;
         2) install_theme_enigma;;
@@ -820,7 +881,8 @@ handle_choice() {
         11) installnightcoretheme;;
         12) installthememcube;;
         13) installminecraftpurpletheme;;
-        14) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
+        14) install_stellartheme;;
+        15) echo -e "${GREEN}𝗔𝗡𝗗𝗔 𝗧𝗘𝗟𝗔𝗛 𝗞𝗘𝗟𝗨𝗔𝗥 𝗗𝗔𝗥𝗜 𝗜𝗡𝗦𝗧𝗔𝗟𝗟𝗘𝗥 𝗥𝗔𝗜𝗡𝗠𝗖${RESET}"; exit 0;;
         *) echo -e "${RESET}Pilihan tidak Benar Silakan coba lagi${RESET}";;
     esac
 }
