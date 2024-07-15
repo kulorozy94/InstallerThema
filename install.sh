@@ -709,7 +709,7 @@ RESET='\033[0m'
 GREEN='\033[1;32m'
 
 trap '' SIGINT
-trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭𝟮 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
+trap 'echo -e "\n𝗞𝗘𝗧𝗜𝗞 𝟭3 𝗟𝗔𝗟𝗨 𝗘𝗡𝗧𝗘𝗥 𝗨𝗡𝗧𝗨𝗞 𝗞𝗘𝗟𝗨𝗔𝗥";' SIGINT
 
 show_menu() {
     if [ "$1" == "first" ]; then
